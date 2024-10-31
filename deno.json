@@ -1,0 +1,9 @@
+{
+  "tasks": {
+    "start": "deno --allow-read --allow-write --allow-net --allow-run main.ts",
+    "buildFileList": "deno --allow-read --allow-write buildFileList.ts"
+  },
+  "imports": {
+    "@zip-js/zip-js": "jsr:@zip-js/zip-js@^2.7.53"
+  }
+}
