@@ -47,10 +47,8 @@ async function extractPck(pck: zip.Entry) {
   }
   await Deno.mkdir("temp");
 
-  // write pck to temp/pck.pck
   await Deno.writeFile("temp/pck.pck", buf);
 
-  // "D:\tools\GDRETools\gdre_tools.exe" --headless --recover="temp/pck.pck" --output-dir="temp/project"
   const cmd = new Deno.Command("D:\\tools\\GDRETools\\gdre_tools.exe", {
     args: ["--headless", "--recover=temp/pck.pck", "--output-dir=temp/project"],
     stdout: "piped",
@@ -92,17 +90,12 @@ async function checkPackage(pkgVersion: ThunderstoreVersion) {
   const reader = new zip.BlobReader(blob);
   const file = new zip.ZipReader(reader);
 
-  // Check for GDWeave/mods/<mod id> folder
   const entries = await file.getEntries();
   const entriesInModsFolder = entries.filter(
     (entry) =>
       entry.filename.startsWith("GDWeave/mods/") &&
       entry.filename.split("/").length === 3
   );
-  if (entriesInModsFolder.length === 0) {
-    // Guess pyoid works around this
-    //errors.push("Mod not in GDWeave/mods folder format");
-  }
   if (entriesInModsFolder.length > 1) {
     errors.push("Multiple mods in GDWeave/mods folder");
   }
