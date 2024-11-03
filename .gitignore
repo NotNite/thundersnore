@@ -1,4 +1,4 @@
 temp/
 checkedVersions.json
 errors.txt
-fileList.json
+.env

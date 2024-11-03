@@ -1,4 +1,5 @@
-const root = "D:/code/misc/godot/webfishing/webfishing-decomp";
+import "@std/dotenv/load";
+const root = Deno.env.get("DECOMP_PATH")!;
 const startingDirs = ["Assets", "Resources", "Scenes", "Sounds"];
 
 const files: Record<string, string> = {};
@@ -13,7 +14,7 @@ async function sha256OfFile(file: string) {
 
 async function buildFileList(dir: string) {
   const fullDir = `${root}/${dir}`;
-  const entries = await Deno.readDir(fullDir);
+  const entries = Deno.readDir(fullDir);
   for await (const entry of entries) {
     const path = `${dir}/${entry.name}`;
     if (entry.isDirectory) {

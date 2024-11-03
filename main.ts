@@ -1,3 +1,4 @@
+import "@std/dotenv/load";
 import * as zip from "@zip-js/zip-js";
 
 if (!(await Deno.stat("checkedVersions.json").catch(() => null))) {
@@ -49,7 +50,7 @@ async function extractPck(pck: zip.Entry) {
 
   await Deno.writeFile("temp/pck.pck", buf);
 
-  const cmd = new Deno.Command("D:\\tools\\GDRETools\\gdre_tools.exe", {
+  const cmd = new Deno.Command(Deno.env.get("GDRE_TOOLS_PATH")!, {
     args: ["--headless", "--recover=temp/pck.pck", "--output-dir=temp/project"],
     stdout: "piped",
     stderr: "piped"
@@ -135,7 +136,11 @@ async function checkPackage(pkgVersion: ThunderstoreVersion) {
   }
 }
 
-const ignore = ["NotNet-GDWeave", "Pyoid-Hook_Line_and_Sinker"];
+const ignore = [
+  "NotNet-GDWeave",
+  "Pyoid-Hook_Line_and_Sinker",
+  "GardenGals-Hatchery"
+];
 
 for (const pkg of packages) {
   if (ignore.includes(pkg.full_name)) continue;
